@@ -1,8 +1,11 @@
-import React, { memo, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { OptionProps } from "../props/OptionProps";
 import "materialize-css/dist/css/materialize.min.css";
 import "../styles/PasswordOptions.css";
-import { PasswordConfigKey } from "../PasswordConfig";
+import { PasswordConfigKey } from "../model/PasswordConfig";
+import { groupID } from "../model/groupID";
+import { DEFAULT_CONFIG } from "../model/generatePassword";
+
 const options_config = {
   max: 50,
   min: 2,
@@ -10,13 +13,60 @@ const options_config = {
 };
 
 function PasswordOptions(props: OptionProps) {
-  const { checked, clickHandler, lengthChangeHandler, optionsEnabled } = props;
-  let [lengthValue, changeLength] = useState(options_config.default);
+  const { config, changeConfig, lengthChangeHandler } = props;
+  const [lengthValue, changeLength] = useState(options_config.default);
+  const [enabled, enableChanged] = useState(true);
+  const [mySettings, mySettingsChanged] = useState(false);
+
+  useEffect(() => {
+    enableChanged(
+      Number(config.digits) +
+        Number(config.lowercase) +
+        Number(config.uppercase) +
+        Number(config.signs) >
+        1
+    );
+  }, [config]);
 
   //Handler for changeing password length via range input
   function lengthChanger(e: React.ChangeEvent<HTMLInputElement>) {
     lengthChangeHandler(e);
     changeLength(Number(e.target.value));
+  }
+  function optionChanged(checkboxID: PasswordConfigKey) {
+    return function (e: React.ChangeEvent<HTMLInputElement>) {
+      const newConfig = { ...config, [checkboxID]: !config[checkboxID] };
+      changeConfig(newConfig);
+      mySettingsChanged(true);
+    };
+  }
+
+  function symbolGroupChanged(grID: groupID) {
+    return function (e: React.ChangeEvent<HTMLInputElement>) {
+      let newConfig = config;
+      mySettingsChanged(false);
+      switch (grID) {
+        case groupID.all: {
+          changeConfig(DEFAULT_CONFIG);
+          break;
+        }
+        case groupID.defined: {
+          newConfig.dual = false;
+          changeConfig(newConfig);
+          break;
+        }
+        case groupID.letters: {
+          changeConfig({
+            uppercase: true,
+            lowercase: true,
+            dual: false,
+            signs: false,
+            digits: false,
+          });
+          break;
+        }
+      }
+    };
   }
 
   //Handler for changing password length via number input
@@ -37,46 +87,47 @@ function PasswordOptions(props: OptionProps) {
             <div className="col s12 m6 options__container expand">
               <label className="">
                 <input
-                  disabled={!optionsEnabled && checked.digits}
+                  disabled={!enabled && config.digits}
                   type="checkbox"
-                  onClick={clickHandler("digits" as PasswordConfigKey)}
-                  defaultChecked={checked.digits}
+                  // onClick={}
+                  onChange={optionChanged("digits" as PasswordConfigKey)}
                   className="filled-in"
+                  checked={config.digits}
                 />
                 <span>Цифры</span>
               </label>
               <label className="">
                 <input
-                  disabled={!optionsEnabled && checked.lowercase}
+                  disabled={!enabled && config.lowercase}
                   /* 1  1  0
                        1  0  0
                        0  1  1
                        0  0  0*/
                   type="checkbox"
-                  onClick={clickHandler("lowercase" as PasswordConfigKey)}
-                  defaultChecked={checked.lowercase}
+                  onChange={optionChanged("lowercase" as PasswordConfigKey)}
                   className="filled-in"
+                  checked={config.lowercase}
                 />
                 <span>Строчные буквы</span>
               </label>
               <label className="">
                 <input
-                  disabled={!optionsEnabled && checked.uppercase}
+                  disabled={!enabled && config.uppercase}
                   type="checkbox"
-                  onClick={clickHandler("uppercase" as PasswordConfigKey)}
-                  defaultChecked={checked.uppercase}
+                  onChange={optionChanged("uppercase" as PasswordConfigKey)}
                   className="filled-in"
+                  checked={config.uppercase}
                 />
                 <span>Заглавные буквы</span>
               </label>
               <label className="">
                 <input
-                  disabled={!optionsEnabled && checked.signs}
+                  disabled={!enabled && config.signs}
                   type="checkbox"
                   name=""
-                  onClick={clickHandler("signs" as PasswordConfigKey)}
-                  defaultChecked={checked.signs}
+                  onChange={optionChanged("signs" as PasswordConfigKey)}
                   className="filled-in"
+                  checked={config.signs}
                 />
                 <span>Спец. символы</span>
               </label>
@@ -84,20 +135,43 @@ function PasswordOptions(props: OptionProps) {
             <form action="#" className="col s12 m6">
               <p>
                 <label>
-                  <input name="group1" type="radio" />
-                  <span>Не использовать спорные символы </span>
+                  <input
+                    name="group1"
+                    type="radio"
+                    onChange={symbolGroupChanged(groupID.defined)}
+                  />
+                  <span>Не использовать двучитаемые символы </span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input name="group1" type="radio" />
+                  <input
+                    name="group1"
+                    type="radio"
+                    onChange={symbolGroupChanged(groupID.letters)}
+                  />
                   <span>Только буквы</span>
                 </label>
               </p>
               <p>
                 <label>
-                  <input name="group1" type="radio" defaultChecked={true} />
+                  <input
+                    name="group1"
+                    type="radio"
+                    onChange={symbolGroupChanged(groupID.all)}
+                  />
                   <span>Все символы</span>
+                </label>
+              </p>
+              <p>
+                <label>
+                  <input
+                    disabled={!mySettings}
+                    name="group1"
+                    type="radio"
+                    checked={mySettings}
+                  />
+                  <span>Свои настройки</span>
                 </label>
               </p>
             </form>
@@ -114,7 +188,7 @@ function PasswordOptions(props: OptionProps) {
                 />
               </p>
             </form>
-            <div className="input-field inline col m1 s2">
+            <div className="input inline col m1 s2">
               <input
                 id="length"
                 type="number"
@@ -125,7 +199,6 @@ function PasswordOptions(props: OptionProps) {
                 min={options_config.min}
               />
               <label htmlFor="length">Length</label>
-              {/* <span className="col s1 text">{lengthValue}</span> */}
             </div>
           </div>
         </div>

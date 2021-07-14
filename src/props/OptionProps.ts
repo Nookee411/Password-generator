@@ -1,9 +1,8 @@
-import { ChangeEventHandler, MouseEventHandler } from "react";
-import { PasswordConfig } from "../PasswordConfig";
+import { ChangeEventHandler } from "react";
+import { PasswordConfig } from "../model/PasswordConfig";
 
 export interface OptionProps {
-  checked: PasswordConfig;
-  clickHandler: Function;
+  config: PasswordConfig;
+  changeConfig: Function;
   lengthChangeHandler: ChangeEventHandler;
-  optionsEnabled: boolean;
 }

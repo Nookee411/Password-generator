@@ -3,6 +3,7 @@ export interface PasswordConfig {
   lowercase: boolean;
   digits: boolean;
   signs: boolean;
+  dual: boolean;
 }
 
 export type PasswordConfigKey = keyof PasswordConfig;
