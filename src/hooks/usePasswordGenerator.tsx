@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PasswordConfig } from "../PasswordConfig";
 
 export const defaultConfig = {
@@ -12,10 +12,6 @@ export default function usePasswordGenerator(
   newConfig: PasswordConfig = defaultConfig
 ) {
   const [config, changeConfig] = useState(newConfig);
-
-  useEffect(() => {
-    changeConfig(newConfig);
-  }, [config]);
 
   let digits = "1234567890";
   let lowercase = "abcdefghijklmnopqrstuvwxyz";
