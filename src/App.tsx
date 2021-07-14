@@ -1,14 +1,8 @@
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import "./styles/App.css";
 import PasswordForm from "./components/PasswordForm";
 import PasswordOptions from "./components/PasswordOptions";
-import { PasswordConfig, PasswordConfigKey } from "./PasswordConfig";
+import { PasswordConfigKey } from "./PasswordConfig";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
 import About from "./components/About";

@@ -2,7 +2,7 @@ import React, { memo, useState } from "react";
 import { OptionProps } from "../props/OptionProps";
 import "materialize-css/dist/css/materialize.min.css";
 import "../styles/PasswordOptions.css";
-
+import { PasswordConfigKey } from "../PasswordConfig";
 const options_config = {
   max: 50,
   min: 2,
@@ -39,7 +39,7 @@ function PasswordOptions(props: OptionProps) {
                 <input
                   disabled={!optionsEnabled && checked.digits}
                   type="checkbox"
-                  onClick={clickHandler("digits")}
+                  onClick={clickHandler("digits" as PasswordConfigKey)}
                   defaultChecked={checked.digits}
                   className="filled-in"
                 />
@@ -53,7 +53,7 @@ function PasswordOptions(props: OptionProps) {
                        0  1  1
                        0  0  0*/
                   type="checkbox"
-                  onClick={clickHandler("lowercase")}
+                  onClick={clickHandler("lowercase" as PasswordConfigKey)}
                   defaultChecked={checked.lowercase}
                   className="filled-in"
                 />
@@ -63,7 +63,7 @@ function PasswordOptions(props: OptionProps) {
                 <input
                   disabled={!optionsEnabled && checked.uppercase}
                   type="checkbox"
-                  onClick={clickHandler("uppercase")}
+                  onClick={clickHandler("uppercase" as PasswordConfigKey)}
                   defaultChecked={checked.uppercase}
                   className="filled-in"
                 />
@@ -74,7 +74,7 @@ function PasswordOptions(props: OptionProps) {
                   disabled={!optionsEnabled && checked.signs}
                   type="checkbox"
                   name=""
-                  onClick={clickHandler("signs")}
+                  onClick={clickHandler("signs" as PasswordConfigKey)}
                   defaultChecked={checked.signs}
                   className="filled-in"
                 />
