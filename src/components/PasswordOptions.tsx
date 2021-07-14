@@ -1,5 +1,5 @@
 import React, { memo, useState } from "react";
-import { OptionProps } from "./OptionProps";
+import { OptionProps } from "../props/OptionProps";
 import "materialize-css/dist/css/materialize.min.css";
 import "../styles/PasswordOptions.css";
 
@@ -27,7 +27,7 @@ function PasswordOptions(props: OptionProps) {
   }
 
   return (
-    <ul className="collapsible hoverable">
+    <ul className="collapsible">
       <li>
         <div className="collapsible-header ">
           <i className="material-icons">settings</i>Настроить пароль
@@ -39,8 +39,7 @@ function PasswordOptions(props: OptionProps) {
                 <input
                   disabled={!optionsEnabled && checked.digits}
                   type="checkbox"
-                  id="digits"
-                  onClick={clickHandler}
+                  onClick={clickHandler("digits")}
                   defaultChecked={checked.digits}
                   className="filled-in"
                 />
@@ -54,8 +53,7 @@ function PasswordOptions(props: OptionProps) {
                        0  1  1
                        0  0  0*/
                   type="checkbox"
-                  id="lowercase"
-                  onClick={clickHandler}
+                  onClick={clickHandler("lowercase")}
                   defaultChecked={checked.lowercase}
                   className="filled-in"
                 />
@@ -65,8 +63,7 @@ function PasswordOptions(props: OptionProps) {
                 <input
                   disabled={!optionsEnabled && checked.uppercase}
                   type="checkbox"
-                  id="uppercase"
-                  onClick={clickHandler}
+                  onClick={clickHandler("uppercase")}
                   defaultChecked={checked.uppercase}
                   className="filled-in"
                 />
@@ -77,8 +74,7 @@ function PasswordOptions(props: OptionProps) {
                   disabled={!optionsEnabled && checked.signs}
                   type="checkbox"
                   name=""
-                  id="signs"
-                  onClick={clickHandler}
+                  onClick={clickHandler("signs")}
                   defaultChecked={checked.signs}
                   className="filled-in"
                 />

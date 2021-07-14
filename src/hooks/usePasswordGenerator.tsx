@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { PasswordConfig } from "./PasswordConfig";
+import React, { useState, useEffect } from "react";
+import { PasswordConfig } from "../PasswordConfig";
 
-const defaultConfig = {
-    uppercase: true,
-    lowercase: true,
-    digits: true,
-    signs: true,
-  }
+export const defaultConfig = {
+  uppercase: true,
+  lowercase: true,
+  digits: true,
+  signs: true,
+};
 
-
-export default function usePasswordGenerator(newConfig: PasswordConfig = defaultConfig) {
+export default function usePasswordGenerator(
+  newConfig: PasswordConfig = defaultConfig
+) {
   const [config, changeConfig] = useState(newConfig);
 
   useEffect(() => {
     changeConfig(newConfig);
-  }, [newConfig])
+  }, [config]);
 
   let digits = "1234567890";
   let lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -22,27 +23,18 @@ export default function usePasswordGenerator(newConfig: PasswordConfig = default
   let signs = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
   let passwordAlphabet: String = "";
 
-
   return {
-    config: {
-      uppercase: true,
-      lowercase: true,
-      digits: true,
-      signs: true,
-    },
     changeConfig,
+    config,
     generatePassword: function (length: number) {
       let getRandomIndex = function (length: number): number {
         return Math.floor(Math.random() * length);
       };
-      let compilePasswordAlphabet = (): String => {
-        return (
-          (this.config.lowercase ? lowercase : "") +
-          (this.config.uppercase ? uppercase : "") +
-          (this.config.digits ? digits : "") +
-          (this.config.signs ? signs : "")
-        );
-      };
+      let compilePasswordAlphabet = (): String =>
+        (config.lowercase ? lowercase : "") +
+        (config.uppercase ? uppercase : "") +
+        (config.digits ? digits : "") +
+        (config.signs ? signs : "");
       passwordAlphabet = compilePasswordAlphabet();
       let password = "";
       let alphabetLength = passwordAlphabet.length;

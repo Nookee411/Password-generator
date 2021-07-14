@@ -3,7 +3,7 @@ import { PasswordConfig } from "../PasswordConfig";
 
 export interface OptionProps {
   checked: PasswordConfig;
-  clickHandler: MouseEventHandler;
+  clickHandler: Function;
   lengthChangeHandler: ChangeEventHandler;
   optionsEnabled: boolean;
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import App from "./App";
-import PasswordGenerator from "./PasswordGenerator";
+import PasswordGenerator from "./hooks/usePasswordGenerator";
 
 // test("renders learn react link", () => {
 //   render(<App />);
