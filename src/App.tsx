@@ -1,16 +1,22 @@
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import "./styles/App.css";
 import PasswordForm from "./components/PasswordForm";
-import { PasswordGenerator } from "./PasswordGenerator";
+import PasswordGenerator from "./PasswordGenerator";
 import PasswordOptions from "./components/PasswordOptions";
 import { PasswordConfig } from "./PasswordConfig";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
 
-let generator = new PasswordGenerator();
+let generator = PasswordGenerator();
 
 function App() {
-  let [config, changeConfig] = useState(new PasswordConfig());
+  let initialConfig: PasswordConfig = {
+    uppercase: true,
+    lowercase: true,
+    digits: true,
+    signs: true,
+  };
+  let [config, changeConfig] = useState(initialConfig);
   let [passwordLength, changeLength] = useState(5);
   let [password, changePassword] = useState(
     generator.generatePassword(passwordLength)
