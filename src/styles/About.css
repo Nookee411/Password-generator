@@ -1,0 +1,11 @@
+.collapsible-header {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.collapsible-body > p {
+  max-width: 70ch;
+}
+.collapsible-body h3 {
+  font-size: 1.6rem;
+  margin-top: 0;
+}

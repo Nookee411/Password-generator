@@ -6,6 +6,7 @@ import PasswordOptions from "./components/PasswordOptions";
 import { PasswordConfig } from "./PasswordConfig";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
+import About from "./components/About";
 
 let generator = PasswordGenerator();
 
@@ -81,6 +82,7 @@ function App() {
           optionsEnabled={enabled}
         />
       </div>
+      <About />
     </div>
   );
 }
