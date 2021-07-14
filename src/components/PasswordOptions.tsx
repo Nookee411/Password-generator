@@ -134,7 +134,7 @@ function PasswordOptions(props: OptionProps) {
   );
 }
 
-export default memo(PasswordOptions);
+export default PasswordOptions;
 
 // [1,  5,  9]
 // [10, 11, 13]

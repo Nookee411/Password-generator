@@ -5,7 +5,7 @@ import PasswordOptions from "./components/PasswordOptions";
 import { PasswordConfigKey } from "./PasswordConfig";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
-import About from "./components/About";
+import About from "./pages/About";
 import usePasswordGenerator from "./hooks/usePasswordGenerator";
 
 function App() {

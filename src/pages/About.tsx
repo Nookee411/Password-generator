@@ -1,3 +1,4 @@
+import React from "react";
 import "../styles/About.css";
 
 const About = function () {
@@ -34,4 +35,4 @@ const About = function () {
   );
 };
 
-export default About;
+export default React.memo(About);
