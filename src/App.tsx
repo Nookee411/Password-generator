@@ -29,7 +29,7 @@ function App() {
     M.Collapsible.init(elems);
   });
   function lengthChanged(e: ChangeEvent<HTMLInputElement>) {
-    changeLength((passwordLength = Number(e.currentTarget.value)));
+    changeLength(Number(e.currentTarget.value));
     refreshButtonClick();
   }
   function optionChanged(e: MouseEvent<HTMLElement>) {
@@ -66,7 +66,7 @@ function App() {
     console.log(generator.config);
   }
   function refreshButtonClick() {
-    changePassword((password = generator.generatePassword(passwordLength)));
+    changePassword(generator.generatePassword(passwordLength));
   }
 
   return (

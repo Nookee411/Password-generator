@@ -16,7 +16,7 @@ function PasswordOptions(props: OptionProps) {
   //Handler for changeing password length via range input
   function lengthChanger(e: React.ChangeEvent<HTMLInputElement>) {
     lengthChangeHandler(e);
-    changeLength((lengthValue = Number(e.target.value)));
+    changeLength(Number(e.target.value));
   }
 
   //Handler for changing password length via number input
