@@ -1,9 +1,5 @@
 import "../styles/PasswordForm.css";
-
-interface PasswordProps {
-  password: string;
-  clickHandler: React.MouseEventHandler<HTMLButtonElement>;
-}
+import PasswordProps from "../props/PasswordFormProps";
 
 function PasswordForm(props: PasswordProps) {
   const { password, clickHandler } = props;

@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { OptionProps } from "../props/OptionProps";
 import "materialize-css/dist/css/materialize.min.css";
 import "../styles/PasswordOptions.css";
-import { PasswordConfigKey } from "../model/PasswordConfig";
+import { PasswordConfig, PasswordConfigKey } from "../model/PasswordConfig";
 import { groupID } from "../model/groupID";
 import { DEFAULT_CONFIG } from "../model/generatePassword";
+import { Formik } from "formik";
 
 const options_config = {
   max: 50,
@@ -13,7 +14,7 @@ const options_config = {
 };
 
 function PasswordOptions(props: OptionProps) {
-  const { config, changeConfig, lengthChangeHandler } = props;
+  const { config, setConfig, lengthChangeHandler } = props;
   const [lengthValue, changeLength] = useState(options_config.default);
   const [enabled, enableChanged] = useState(true);
   const [mySettings, mySettingsChanged] = useState(false);
@@ -36,36 +37,38 @@ function PasswordOptions(props: OptionProps) {
   function optionChanged(checkboxID: PasswordConfigKey) {
     return function (e: React.ChangeEvent<HTMLInputElement>) {
       const newConfig = { ...config, [checkboxID]: !config[checkboxID] };
-      changeConfig(newConfig);
+      setConfig(newConfig);
       mySettingsChanged(true);
     };
   }
 
   function symbolGroupChanged(grID: groupID) {
     return function (e: React.ChangeEvent<HTMLInputElement>) {
-      let newConfig = config;
+      let newConfig: PasswordConfig;
       mySettingsChanged(false);
       switch (grID) {
         case groupID.all: {
-          changeConfig(DEFAULT_CONFIG);
+          newConfig = { ...DEFAULT_CONFIG };
           break;
         }
         case groupID.defined: {
-          newConfig.dual = false;
-          changeConfig(newConfig);
+          newConfig = { ...config, dual: false };
           break;
         }
         case groupID.letters: {
-          changeConfig({
+          newConfig = {
             uppercase: true,
             lowercase: true,
             dual: false,
             signs: false,
             digits: false,
-          });
+          };
           break;
         }
+        default:
+          newConfig = { ...config };
       }
+      setConfig(newConfig);
     };
   }
 

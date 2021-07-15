@@ -3,6 +3,6 @@ import { PasswordConfig } from "../model/PasswordConfig";
 
 export interface OptionProps {
   config: PasswordConfig;
-  changeConfig: Function;
+  setConfig: React.Dispatch<React.SetStateAction<PasswordConfig>>;
   lengthChangeHandler: ChangeEventHandler;
 }

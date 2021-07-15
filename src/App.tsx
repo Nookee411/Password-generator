@@ -5,28 +5,31 @@ import PasswordOptions from "./components/PasswordOptions";
 import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
 import About from "./pages/About";
+import LoadingIcon from "./components/LoadingIcon";
 import generatePassword, { DEFAULT_CONFIG } from "./model/generatePassword";
 
 function App() {
   useEffect(() => {
     var elems = document.querySelectorAll(".collapsible");
     M.Collapsible.init(elems);
+
+    setTimeout(() => setLoading(false), 1000);
   });
 
   const [passwordLength, changeLength] = useState(5);
-  const [config, changeConfig] = useState(DEFAULT_CONFIG);
-  const [password, changePassword] = useState(
+  const [config, setConfig] = useState(DEFAULT_CONFIG);
+  const [password, setPassword] = useState(
     generatePassword(DEFAULT_CONFIG, passwordLength)
   );
+  const [isLoading, setLoading] = useState(true);
 
   function lengthChanged(e: ChangeEvent<HTMLInputElement>) {
     changeLength(Number(e.currentTarget.value));
     refreshButtonClick();
   }
-  
 
   function refreshButtonClick() {
-    changePassword(generatePassword(config, passwordLength));
+    setPassword(generatePassword(config, passwordLength));
   }
 
   return (
@@ -37,11 +40,12 @@ function App() {
       <div className="row">
         <PasswordOptions
           config={config}
-          changeConfig={changeConfig}
+          setConfig={setConfig}
           lengthChangeHandler={lengthChanged}
         />
       </div>
-      <About />
+      {isLoading && <LoadingIcon />}
+      {!isLoading && <About />}
     </div>
   );
 }
